@@ -2,15 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const User = require("../model/user");
 const bcryptjs = require('bcryptjs');
-
-const DB =
-  "mongodb+srv://kevin:kevinKONE@cluster0.srqjw.mongodb.net/?retryWrites=true&w=majority";
+const link  = require('./mongoose-link');
+  
 
 const authRouter = express.Router();
 
 // mongoose db connection
 mongoose
-  .connect(DB)
+  .connect(link)
   .then(() => {
     console.log("Connect successfully.");
   })

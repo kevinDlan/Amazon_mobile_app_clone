@@ -48,3 +48,4 @@ app.*.map.json
 
 #server
 /server/node_modules/
+/server/router/mongoose-link.js
