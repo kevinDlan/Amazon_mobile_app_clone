@@ -12,6 +12,9 @@ const app = express()
 app.use(express.json())
 app.use(authRouter)
 
+app.get('/api/test', (req, res)=>{
+   res.send('Welcome to sandbo')
+})
 app.listen(PORT,'0.0.0.0',()=>
 { 
    console.log(`Connected successfully to port : ${PORT}`);

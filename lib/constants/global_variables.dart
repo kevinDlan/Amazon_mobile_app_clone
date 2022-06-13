@@ -1,9 +1,9 @@
-import'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-class GlobalVariables
-{
-    // COLORS
+String uri = "http://localhost:3000/api/";
+
+class GlobalVariables {
+  // COLORS
   static const appBarGradient = LinearGradient(
     colors: [
       Color.fromARGB(255, 29, 201, 192),
@@ -17,5 +17,4 @@ class GlobalVariables
   static const Color greyBackgroundCOlor = Color(0xffebecee);
   static var selectedNavBarColor = Colors.cyan[800]!;
   static const unselectedNavBarColor = Colors.black87;
-
 }
