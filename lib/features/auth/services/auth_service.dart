@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:amazon/constants/error_handle.dart';
 import 'package:amazon/constants/global_variables.dart';
 import 'package:amazon/constants/utils.dart';
@@ -25,7 +27,7 @@ class AuthService {
       http.Response res = await http.post(Uri.parse('$uri/signup'),
           body: user.toJson(),
           headers: <String, String>{
-            'Content-Type': 'application/json, charset=UTF-8',
+            'Content-Type': 'application/json; charset=UTF-8',
             // 'Accept':'application/json'
           });
       httErrorHandle(
@@ -36,6 +38,29 @@ class AuthService {
                 context, "Account created, Login with same credential.");
           });
     } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  void signInUser({required String email, required String password, required BuildContext context}) async
+  {
+    try
+    {
+      http.Response res = await http.post(Uri.parse('$uri/signin'),
+          body: jsonEncode({'email':email, 'password':password}),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            // 'Accept':'application/json'
+          });
+      httErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            showSnackBar(
+                context, "Login Successfully.");
+          });
+    }catch(e)
+    {
       showSnackBar(context, e.toString());
     }
   }
