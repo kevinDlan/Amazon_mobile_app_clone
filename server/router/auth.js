@@ -44,7 +44,7 @@ authRouter.post("/api/signin", async(req, res) =>{
  {
    const {email, password} = req.body
    const user = await User.findOne({email},{_id:1,email:1,password:1, type:1})
-   console.log(user)
+  //  console.log(user)
    if(!user)
    {
         return res.status(400).json({mgs : `User with this ${email} does not exist`})

@@ -28,7 +28,6 @@ class AuthService {
           body: user.toJson(),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
-            // 'Accept':'application/json'
           });
       httErrorHandle(
           response: res,
@@ -50,7 +49,6 @@ class AuthService {
           body: jsonEncode({'email':email, 'password':password}),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
-            // 'Accept':'application/json'
           });
       httErrorHandle(
           response: res,
@@ -58,6 +56,7 @@ class AuthService {
           onSuccess: () {
             showSnackBar(
                 context, "Login Successfully.");
+             
           });
     }catch(e)
     {
