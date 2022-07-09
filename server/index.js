@@ -10,7 +10,7 @@ const app = express()
 
 //middleware
 app.use(express.json())
-app.get('/api/', (req,res)=>{
+app.get('/api/test', (req,res)=>{
    res.send('Welcome to my API main endpoint.')
 })
 app.use(authRouter)
@@ -18,7 +18,7 @@ app.use(authRouter)
 app.get('/api/test', (req, res)=>{
    res.json({message : 'Welcome to sandbox'})
 })
-app.listen(PORT,'192.168.1.7',()=>
+app.listen(PORT,'192.168.1.115',()=>
 { 
    console.log(`Connected successfully to port : ${PORT}`);
 })

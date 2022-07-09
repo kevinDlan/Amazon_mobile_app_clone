@@ -4,6 +4,7 @@ const User = require("../model/user");
 const bcryptjs = require('bcryptjs');
 const link  = require('./mongoose-link');
 const jwt = require('jsonwebtoken');
+const auth = require('../middleware/auth');
   
 
 const authRouter = express.Router();
@@ -43,25 +44,48 @@ authRouter.post("/api/signin", async(req, res) =>{
  try
  {
    const {email, password} = req.body
-   const user = await User.findOne({email},{_id:1,email:1,password:1, type:1})
+   const user = await User.findOne({email})
   //  console.log(user)
    if(!user)
    {
-        return res.status(400).json({mgs : `User with this ${email} does not exist`})
+        return res.status(400).json({msg : `User with this ${email} does not exist`})
    }
    const isGoodPwd = await bcryptjs.compare(password, user.password);
    if(!isGoodPwd)
    {
-        return res.status(400).json({mgs : "Please enter a correct password"})
+        return res.status(400).json({msg : "Please enter a correct password"});
    }
 
    token = await jwt.sign({id:user._id},"passwordKey");
-   return res.status(200).json({token, ...user._doc})
+   return res.status(200).json({token, ...user._doc});
 
  }catch(e)
  {
-    res.status(500).json({msg:e.message})
+   return  res.status(500).json({msg:e.message})
  }
+})
+
+// check user token
+authRouter.post('/verified/token', async(req, res)=>{
+   try
+   {
+    const token = req.header('x-auth-token');
+    if(!token) return res.json(false);
+    const verified = jwt.verify(token, 'passwordKey');
+    if(!verified) return res.json(false);
+    const user = User.findById(verified.id);
+    if(!user) return res.json(false);
+    return true;
+   }catch(e)
+   {
+     return res.status(500).json({msg:e.message});
+   }
+})
+
+// get user data
+authRouter.get('/',auth ,async(req, res)=>{
+  const user = await User.findById(req.user);
+  res.json({...user._doc, token: req.token});
 })
 
 module.exports = authRouter;

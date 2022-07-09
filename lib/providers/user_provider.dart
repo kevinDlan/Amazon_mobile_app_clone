@@ -17,6 +17,7 @@ class UserProvider extends ChangeNotifier {
 
   void setUser(String user)
   {
+    print(user.runtimeType);
     _user = User.fromJson(user);
     notifyListeners();
   }
