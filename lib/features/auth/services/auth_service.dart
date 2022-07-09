@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:amazon/common/widgets/bottom_bar.dart';
 import 'package:amazon/constants/error_handle.dart';
 import 'package:amazon/constants/global_variables.dart';
 import 'package:amazon/constants/utils.dart';
@@ -62,7 +63,7 @@ class AuthService {
             Provider.of<UserProvider>(context, listen: false).setUser(res.body);
             SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
             await sharedPreferences.setString("x-auth-token",jsonDecode(res.body)['token'] );
-            Navigator.pushNamedAndRemoveUntil(context, HomeScreen.routeName, (route) => false);
+            Navigator.pushNamedAndRemoveUntil(context, BottomBar.routeName, (route) => false);
           });
     } catch (e)
     {
@@ -80,13 +81,14 @@ class AuthService {
           {
             sharedPreferences.setString('x-auth-token', '');
           }
-          var tokenResponse = await http.post(Uri.parse('$uri/verified/token'),
+          var tokenResponse = await http.post(Uri.parse('$uri/verified/token/'),
               headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
                 'x-auth-token': token!
               });
-          var res = jsonDecode(tokenResponse.body);
-          if(res == true)
+          dynamic res = tokenResponse.body;
+
+          if(res == "true")
           {
             http.Response userData = await http.get(Uri.parse('$uri/'),
                 headers: <String,String>
@@ -101,9 +103,9 @@ class AuthService {
           }
         }catch(e)
         {
-          print("Throw exeption");
-          print(e.toString());
-          //showSnackBar(context, e.toString());
+          //print("Throw exeption");
+          //print(e.toString());
+          showSnackBar(context, e.toString());
         }
   }
 }

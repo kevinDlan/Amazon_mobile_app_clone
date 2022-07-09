@@ -66,7 +66,7 @@ authRouter.post("/api/signin", async(req, res) =>{
 })
 
 // check user token
-authRouter.post('/verified/token', async(req, res)=>{
+authRouter.post("/api/verified/token", async(req, res)=>{
    try
    {
     const token = req.header('x-auth-token');
@@ -75,7 +75,7 @@ authRouter.post('/verified/token', async(req, res)=>{
     if(!verified) return res.json(false);
     const user = User.findById(verified.id);
     if(!user) return res.json(false);
-    return true;
+    res.json(true);
    }catch(e)
    {
      return res.status(500).json({msg:e.message});
@@ -83,7 +83,7 @@ authRouter.post('/verified/token', async(req, res)=>{
 })
 
 // get user data
-authRouter.get('/',auth ,async(req, res)=>{
+authRouter.get('/api',auth ,async(req, res)=>{
   const user = await User.findById(req.user);
   res.json({...user._doc, token: req.token});
 })

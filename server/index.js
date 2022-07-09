@@ -10,7 +10,7 @@ const app = express()
 
 //middleware
 app.use(express.json())
-app.get('/api/test', (req,res)=>{
+app.get('/api/gretting', (req,res)=>{
    res.send('Welcome to my API main endpoint.')
 })
 app.use(authRouter)

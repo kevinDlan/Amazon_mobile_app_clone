@@ -17,10 +17,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final user = Provider.of<UserProvider>(context).user;
     print(user);
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Home'),
-      ),
       body: Center(
         child: Text(
           user.toJson()
