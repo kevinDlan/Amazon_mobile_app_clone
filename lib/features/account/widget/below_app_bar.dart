@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:amazon/constants/global_variables.dart';
 import 'package:amazon/providers/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -12,18 +10,23 @@ class BelowAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
     return Container(
+      width: MediaQuery.of(context).size.width,
       decoration: const BoxDecoration(
         gradient: GlobalVariables.appBarGradient,
       ),
       padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-      child: Row(
-        children: [
-          RichText(
+      child:RichText(
               text: TextSpan(
-                  text: "Hello ${user.name}",
-                  style: const TextStyle(color: Colors.black, fontSize: 22)))
-              ],
-      ),
+                  text: "Hello ",
+                  style: const TextStyle(color: Colors.black, fontSize: 22),
+                children: [
+                  TextSpan(
+                    text: user.name,
+                    style: const TextStyle(color: Colors.black, fontSize: 22, fontWeight: FontWeight.w600),
+                  )
+                ]
+              )
+      )
     );
   }
 }
