@@ -95,19 +95,17 @@ class _AuthScreenState extends State<AuthScreen> {
                            key: _signupGlobalKey,
                            child: Column(
                              children: [
-                               CustomTextFied(
+                               CustomTextField(
                                  controller: _nameController,
-                                 hint: 'Name',
-                                 isObscureTxt: false,
+                                 hint: 'Name'
                                ),
                                const SizedBox(height: 10.0),
-                               CustomTextFied(
+                               CustomTextField(
                                  controller: _emailController,
-                                 hint: 'Email',
-                                 isObscureTxt: false,
+                                 hint: 'Email'
                                ),
                                const SizedBox(height: 10.0),
-                               CustomTextFied(
+                               CustomTextField(
                                  controller: _pwdController,
                                  hint: 'Password',
                                  isObscureTxt: true,
@@ -151,13 +149,12 @@ class _AuthScreenState extends State<AuthScreen> {
                            child: Column(
                              children: [
                                const SizedBox(height: 10.0),
-                               CustomTextFied(
+                               CustomTextField(
                                  controller: _emailController,
                                  hint: 'Email',
-                                 isObscureTxt: false,
                                ),
                                const SizedBox(height: 10.0),
-                               CustomTextFied(
+                               CustomTextField(
                                  controller: _pwdController,
                                  hint: 'Password',
                                  isObscureTxt: true,

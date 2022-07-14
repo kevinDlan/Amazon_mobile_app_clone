@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 
-class CustomTextFied extends StatelessWidget {
+class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
   final bool isObscureTxt;
-  const CustomTextFied(
+  final int maxLine;
+  const CustomTextField(
       {Key? key,
       required this.controller,
       required this.hint,
-      required this.isObscureTxt})
+      this.isObscureTxt = false,
+      this.maxLine = 1
+      })
       : super(key: key);
 
   @override
