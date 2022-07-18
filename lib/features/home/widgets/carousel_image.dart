@@ -6,7 +6,8 @@ class CarouselImage extends StatelessWidget {
   const CarouselImage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     return CarouselSlider(
         items: GlobalVariables.carouselImages.map((e) {
           return Builder(

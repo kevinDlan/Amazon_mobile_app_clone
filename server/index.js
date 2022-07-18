@@ -1,20 +1,22 @@
 //Create API Endpoint
-const express  = require('express')
+const express  = require('express');
 const PORT = 3000
-
 //import other route from file
-const authRouter = require('./router/auth')
+const authRouter = require('./router/auth');
+// import admin route
+const adminRouter = require('./router/admin');
 
 // create a port
-const app = express()
+const app = express();
 
 //middleware
-app.use(express.json())
-app.get('/api/gretting', (req,res)=>{
-   res.send('Welcome to my API main endpoint.')
-})
-app.use(authRouter)
+app.use(express.json());
+app.use(authRouter);
+app.use(adminRouter);
 
+app.get('/api/gretting', (req,res)=>{
+   res.send('Welcome to my API main endpoint.');
+})
 app.get('/api/test', (req, res)=>{
    res.json({message : 'Welcome to sandbox'})
 })

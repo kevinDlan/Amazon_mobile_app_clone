@@ -3,7 +3,6 @@ import 'package:amazon/common/widgets/bottom_bar.dart';
 import 'package:amazon/constants/error_handle.dart';
 import 'package:amazon/constants/global_variables.dart';
 import 'package:amazon/constants/utils.dart';
-import 'package:amazon/features/home/screens/home_screen.dart';
 import 'package:amazon/models/user.dart';
 import 'package:amazon/providers/user_provider.dart';
 import 'package:flutter/material.dart';
