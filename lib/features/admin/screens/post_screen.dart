@@ -28,10 +28,20 @@ class _PostScreenState extends State<PostScreen> {
     fetchAllProduct();
   }
 
-  fetchAllProduct() async {
+  void fetchAllProduct() async {
     products = await adminService.getAllProduct(context:context);
     setState(() {});
   }
+  
+  void deleteProduct(Product product, int index) async
+  {
+    adminService.deleteProduct(context: context, product: product, onSuccess: ()
+    {
+        products!.removeAt(index);
+        setState((){});
+    });
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +73,9 @@ class _PostScreenState extends State<PostScreen> {
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(fontWeight: FontWeight.w600),
                                         maxLines: 2)),
-                                const IconButton(
-                                    onPressed: null,
-                                    icon: Icon(
+                                 IconButton(
+                                    onPressed: () => deleteProduct(productData, index),
+                                    icon: const Icon(
                                       Icons.delete_outline,
                                     ))
                               ],

@@ -3,8 +3,8 @@ const express  = require('express');
 const PORT = 3000
 //import other route from file
 const authRouter = require('./router/auth');
-// import admin route
 const adminRouter = require('./router/admin');
+const productRouter = require('./router/product');
 
 // create a port
 const app = express();
@@ -13,6 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(authRouter);
 app.use(adminRouter);
+app.use(productRouter)
 
 app.get('/api/gretting', (req,res)=>{
    res.send('Welcome to my API main endpoint.');
