@@ -1,7 +1,7 @@
 import 'package:amazon/common/widgets/loader.dart';
 import 'package:amazon/features/account/widget/single_product.dart';
 import 'package:amazon/features/admin/screens/add_product_screen.dart';
-import 'package:amazon/features/admin/services/admin_service.dart';
+import 'package:amazon/features/admin/services/admin_services.dart';
 import 'package:flutter/material.dart';
 
 import '../../../models/product.dart';
@@ -28,12 +28,13 @@ class _PostScreenState extends State<PostScreen> {
     fetchAllProduct();
   }
 
-  void fetchAllProduct() async {
+  void fetchAllProduct() async
+  {
     products = await adminService.getAllProduct(context:context);
     setState(() {});
   }
   
-  void deleteProduct(Product product, int index) async
+  void deleteProduct(Product product, int index)
   {
     adminService.deleteProduct(context: context, product: product, onSuccess: ()
     {

@@ -19,6 +19,21 @@ productRouter.get("/api/products", async(req,res)=>
 });
 
 
+productRouter.get("/api/products/search/:searchQuery", async(req, res)=>
+{
+  try
+  {
+    const products = await Product.find({
+      name:{$regex: req.params.searchQuery, $options:"i"}
+    });
+    res.json(products);
+  }catch(e)
+  {
+    res.status(500).json({msg:e.message})
+  }
+} );
+
+
 
 
 module.exports = productRouter

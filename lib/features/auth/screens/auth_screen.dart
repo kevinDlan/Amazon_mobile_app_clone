@@ -1,7 +1,7 @@
 import 'package:amazon/common/widgets/custom_button.dart';
 import 'package:amazon/common/widgets/custom_textfield.dart';
 import 'package:amazon/constants/global_variables.dart';
-import 'package:amazon/features/auth/services/auth_service.dart';
+import 'package:amazon/features/auth/services/auth_services.dart';
 import 'package:flutter/material.dart';
 
 enum Auth { signin, signup }
