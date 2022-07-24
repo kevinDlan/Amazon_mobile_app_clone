@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../../../constants/global_variables.dart';
 import '../../../models/product.dart';
+import '../../product_details/screens/product_details_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   final String searchQuery;
@@ -30,6 +31,12 @@ class _SearchScreenState extends State<SearchScreen> {
     Navigator.pushNamed(context, SearchScreen.routeName,
         arguments: searchQuery);
   }
+
+  navigateToProductDetailScreen(Product product)
+  {
+    Navigator.pushNamed(context, ProductDetailsScreen.routeName, arguments: product);
+  }
+  double avgRating = 0;
 
   @override
   void initState() {
@@ -99,15 +106,21 @@ class _SearchScreenState extends State<SearchScreen> {
           : Column(
               children: [
                 const AddressBox(),
-                const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 Expanded(
                     child: ListView.builder(
                         itemCount: products!.length,
-                        itemBuilder: (context, index)
-                    {
-                      return SearchedProductWidget(product: products![index]);
-                    })
-                )
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                              onTap: ()
+                              {
+                                navigateToProductDetailScreen(products![index]);
+                              },
+                              child: SearchedProductWidget(
+                                  product: products![index]));
+                        }))
               ],
             ),
     );

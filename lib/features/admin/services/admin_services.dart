@@ -48,7 +48,6 @@ class AdminService {
           context: context,
           response: resp,
           onSuccess: () {
-            ;
             showSnackBar(context, "Product Added successfully");
             Navigator.pop(context);
           });
@@ -77,7 +76,8 @@ class AdminService {
                   jsonEncode(jsonDecode(productResult.body)[i])));
             }
           });
-    } catch (e) {
+    } catch (e)
+    {
       debugPrint("Error : ${e.toString()}");
       showSnackBar(context, e.toString());
     }

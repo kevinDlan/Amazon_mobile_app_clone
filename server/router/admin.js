@@ -28,7 +28,7 @@ adminRouter.post("/api/admin/add-product", admin, async (req, res) => {
   }
 });
 
-// get all product
+// get all products
 adminRouter.get("/api/admin/get-products", admin, async(req,res)=>
 {
     try

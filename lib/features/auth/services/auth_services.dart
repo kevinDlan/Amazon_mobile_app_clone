@@ -97,7 +97,6 @@ class AuthService {
                 }
             );
             var userProvider = Provider.of<UserProvider>(context, listen: false);
-            print(userData.body);
             userProvider.setUser(userData.body);
           }
         }catch(e)

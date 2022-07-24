@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:amazon/models/user.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +15,6 @@ class UserProvider extends ChangeNotifier {
 
   void setUser(String user)
   {
-    print(user.runtimeType);
     _user = User.fromJson(user);
     notifyListeners();
   }

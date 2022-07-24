@@ -115,7 +115,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                ),
                                CustomButton(
                                    value: 'Sign Up',
-                                   ontap: () {
+                                   onTap: () {
                                      if (_signupGlobalKey.currentState!.validate())
                                      {
                                        signupUser();
@@ -162,7 +162,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                const SizedBox(
                                  height: 10,
                                ),
-                               CustomButton(value: 'Sign In', ontap: () {
+                               CustomButton(value: 'Sign In', onTap: () {
                                  if(_signinGlobalKey.currentState!.validate())
                                  {
                                    signInUser();

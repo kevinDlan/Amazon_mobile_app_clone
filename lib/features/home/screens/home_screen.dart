@@ -3,9 +3,7 @@ import 'package:amazon/features/home/widgets/carousel_image.dart';
 import 'package:amazon/features/home/widgets/deal_of_day.dart';
 import 'package:amazon/features/home/widgets/top_categories.dart';
 import 'package:amazon/features/search/screen/search_screen.dart';
-import 'package:amazon/providers/user_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../../constants/global_variables.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -37,7 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context)
   {
-    final user = Provider.of<UserProvider>(context).user;
     //print(user);
     return Scaffold(
         appBar: PreferredSize(
