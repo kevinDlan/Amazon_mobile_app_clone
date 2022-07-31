@@ -1,3 +1,4 @@
+import 'package:amazon/features/address/screens/address_screen.dart';
 import 'package:amazon/features/admin/screens/add_product_screen.dart';
 import 'package:amazon/features/auth/screens/auth_screen.dart';
 import 'package:amazon/features/home/screens/category_deals_screen.dart';
@@ -35,7 +36,10 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     case ProductDetailsScreen.routeName:
       Product product = routeSettings.arguments as Product;
       return MaterialPageRoute(
-          settings: routeSettings, builder: (_) => ProductDetailsScreen(product: product));  
+          settings: routeSettings, builder: (_) => ProductDetailsScreen(product: product));
+    case AddressScreen.routeName:
+      return MaterialPageRoute(
+          settings: routeSettings, builder: (_) => const AddressScreen());
     default:
       return MaterialPageRoute(
           builder: (_) => const Scaffold(
@@ -45,3 +49,4 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
               ));
   }
 }
+

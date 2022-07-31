@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../../constants/global_variables.dart';
 import '../../../providers/user_provider.dart';
+import '../../address/screens/address_screen.dart';
 import '../../search/screen/search_screen.dart';
 
 class CartScreen extends StatefulWidget {
@@ -22,6 +23,11 @@ class _CartScreenState extends State<CartScreen> {
         arguments: searchQuery);
     var searchTextField;
     searchTextField.text = "";
+  }
+
+  void navigateToAddressScreen()
+  {
+    Navigator.pushNamed(context, AddressScreen.routeName);
   }
 
   TextEditingController searchTextField = TextEditingController();
@@ -96,7 +102,7 @@ class _CartScreenState extends State<CartScreen> {
               padding: const EdgeInsets.all(8.0),
               child: CustomButton(
                 value: "Proceed to Buy (${user.cart.length} item(s))",
-                onTap: () {},
+                onTap: navigateToAddressScreen,
                 color: Colors.yellow[600],
               ),
             ),
