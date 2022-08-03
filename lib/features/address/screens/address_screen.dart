@@ -1,13 +1,17 @@
-import 'package:amazon/providers/user_provider.dart';
+import 'package:amazon/common/widgets/custom_button.dart';
+import 'package:amazon/constants/utils.dart';
+import 'package:amazon/features/address/services/address_services.dart';
+import 'package:amazon/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:pay/pay.dart';
 import 'package:provider/provider.dart';
-import '../../../common/widgets/custom_button.dart';
 import '../../../common/widgets/custom_textfield.dart';
 import '../../../constants/global_variables.dart';
+import '../../../providers/user_provider.dart';
 
 class AddressScreen extends StatefulWidget {
-  const AddressScreen({Key? key}) : super(key: key);
+  final String totalAmount;
+  const AddressScreen({Key? key, required this.totalAmount}) : super(key: key);
   static const String routeName = "/address";
   @override
   State<AddressScreen> createState() => _AddressScreenState();
@@ -15,7 +19,6 @@ class AddressScreen extends StatefulWidget {
 
 class _AddressScreenState extends State<AddressScreen> {
   final _addressConfigFormKey = GlobalKey<FormState>();
-
   final TextEditingController addressFlatNoController = TextEditingController();
   final TextEditingController addressAreaStreetController =
       TextEditingController();
@@ -23,6 +26,7 @@ class _AddressScreenState extends State<AddressScreen> {
       TextEditingController();
   final TextEditingController addressTownCityController =
       TextEditingController();
+  final AddressService addressService = AddressService();
 
   @override
   void dispose() {
@@ -35,13 +39,51 @@ class _AddressScreenState extends State<AddressScreen> {
   }
 
   List<PaymentItem> paymentItem = [];
+  String usedAddress = "";
 
   void onGooglePayResult(res) {}
-  void onApplePayResult(res) {}
+  void onApplePayResult(res) {
+    if (Provider.of<UserProvider>(context).user.address.isEmpty) {
+      addressService.saveUserAddress(context: context, address: usedAddress);
+    }
+  }
+
+  void handlePayButtonPressed(String addressFromProvider) {
+    usedAddress = "";
+    bool isValidForm = addressAreaStreetController.text.isNotEmpty ||
+        addressAreaStreetController.text.isNotEmpty ||
+        addressPinCodeController.text.isNotEmpty ||
+        addressTownCityController.text.isNotEmpty;
+    if (isValidForm) {
+      if (_addressConfigFormKey.currentState!.validate()) {
+        usedAddress =
+            "${addressAreaStreetController.text} ,${addressAreaStreetController.text},${addressTownCityController.text} - ${addressPinCodeController.text}";
+      } else {
+        throw Exception("Please fill all form");
+      }
+    } else if (addressFromProvider.isNotEmpty) {
+      usedAddress = addressFromProvider;
+    } else {
+      showSnackBar(context, "Error");
+    }
+
+    print(usedAddress);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    paymentItem.add(PaymentItem(
+        amount: widget.totalAmount,
+        label: "Total Amount",
+        status: PaymentItemStatus.final_price));
+  }
+
   @override
   Widget build(BuildContext context) {
-    //var address = context.watch<UserProvider>().user.address;
-    var address = "Abidjan-Cocody-Riviera Golf";
+    var address = context.watch<UserProvider>().user.address;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -108,27 +150,36 @@ class _AddressScreenState extends State<AddressScreen> {
                   ),
                 ),
               ),
-              ApplePayButton
-                (
-                  width: double.infinity ,
-                  style: ApplePayButtonStyle.whiteOutline,
-                  type: ApplePayButtonType.buy,
-                  paymentConfigurationAsset: "applepay.json",
-                  onPaymentResult: onApplePayResult,
-                  paymentItems: paymentItem,
-                  margin: const EdgeInsets.only(top: 15),
+              ApplePayButton(
+                onPressed: () => handlePayButtonPressed(address),
+                width: double.infinity,
+                style: ApplePayButtonStyle.whiteOutline,
+                type: ApplePayButtonType.buy,
+                paymentConfigurationAsset: "applepay.json",
+                onPaymentResult: onApplePayResult,
+                paymentItems: paymentItem,
+                margin: const EdgeInsets.only(top: 15),
               ),
               const SizedBox(height: 10),
               GooglePayButton(
-                  width: double.infinity,
-                  style: GooglePayButtonStyle.black,
-                  type: GooglePayButtonType.buy,
-                  paymentConfigurationAsset: "gpay.json",
-                  onPaymentResult: onGooglePayResult,
-                  paymentItems: paymentItem,
-                  margin: const EdgeInsets.only(top: 15),
-                loadingIndicator: const Center(child: CircularProgressIndicator(),),
-              )
+                onPressed: () => handlePayButtonPressed(address),
+                width: double.infinity,
+                style: GooglePayButtonStyle.black,
+                type: GooglePayButtonType.buy,
+                paymentConfigurationAsset: "gpay.json",
+                onPaymentResult: onGooglePayResult,
+                paymentItems: paymentItem,
+                margin: const EdgeInsets.only(top: 15),
+                loadingIndicator: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+              CustomButton(
+                  value: "Pay with Wave",
+                  onTap: () => addressService.makeOrder(
+                      context: context,
+                      address: address,
+                      totalSum: double.parse(widget.totalAmount)))
             ],
           ),
         ),

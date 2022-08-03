@@ -21,20 +21,28 @@ class _CartScreenState extends State<CartScreen> {
   void navigateToSearchScreen(searchQuery) {
     Navigator.pushNamed(context, SearchScreen.routeName,
         arguments: searchQuery);
-    var searchTextField;
-    searchTextField.text = "";
   }
 
-  void navigateToAddressScreen()
+  void navigateToAddressScreen(int sum)
   {
-    Navigator.pushNamed(context, AddressScreen.routeName);
+    Navigator.pushNamed(context, AddressScreen.routeName, arguments: sum.toString());
   }
 
   TextEditingController searchTextField = TextEditingController();
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    searchTextField.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final user = context.watch<UserProvider>().user;
+    int sum = 0;
+    user.cart.map((p) => sum += p['quantity']*p['product']['price'] as int).toList();
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -102,7 +110,7 @@ class _CartScreenState extends State<CartScreen> {
               padding: const EdgeInsets.all(8.0),
               child: CustomButton(
                 value: "Proceed to Buy (${user.cart.length} item(s))",
-                onTap: navigateToAddressScreen,
+                onTap: () => navigateToAddressScreen(sum),
                 color: Colors.yellow[600],
               ),
             ),
