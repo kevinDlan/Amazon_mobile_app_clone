@@ -35,7 +35,7 @@ userRouter.post("/api/add-to-cart", auth, async (req, res) => {
     console.log("object");
     res.json(user);
   } catch (e) {
-    res.status(500).json({ msg: e.message });
+    res.status(500).json({ error: e.message });
   }
 });
 
@@ -62,7 +62,7 @@ try
   res.json(user);
 }catch(e)
 {
-    res.status(500).json({msg : e.message});
+    res.status(500).json({error : e.message});
 }
 });
 
@@ -78,7 +78,7 @@ userRouter.post("/api/save-user-address", auth , async (req,res)=>
       res.json(user)
   }catch(error)
   {
-    res.status(500).json({msg:e.message});
+    res.status(500).json({error:e.message});
   }
 });
 
@@ -118,8 +118,20 @@ userRouter.post("/api/order", auth , async (req,res)=>
       res.status(200).json(order);
   }catch(error)
   {
-    res.status(500).json({msg:e.message});
+    res.status(500).json({error:e.message});
   }
 });
+
+//get user orders product
+userRouter.get('/api/user-orders', auth, async(req, res)=>
+{
+  try{
+    const orders =  await Order.find({userId:req.user});
+    res.json(orders);
+  }catch(e)
+  {
+    res.status(500).json({error: e.message});
+  }
+})
 
 module.exports = userRouter;

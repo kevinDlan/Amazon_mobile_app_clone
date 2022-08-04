@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:amazon/constants/global_variables.dart';
 import 'package:amazon/constants/utils.dart';
+import 'package:amazon/models/order.dart';
 import 'package:amazon/models/product.dart';
 import 'package:amazon/providers/user_provider.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
@@ -76,8 +77,7 @@ class AdminService {
                   jsonEncode(jsonDecode(productResult.body)[i])));
             }
           });
-    } catch (e)
-    {
+    } catch (e) {
       debugPrint("Error : ${e.toString()}");
       showSnackBar(context, e.toString());
     }
@@ -88,27 +88,80 @@ class AdminService {
   void deleteProduct(
       {required BuildContext context,
       required Product product,
-      required VoidCallback onSuccess}) async
-  {
+      required VoidCallback onSuccess}) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    try
-        {
-          http.Response res = await http.post(Uri.parse("$uri/admin/delete-product"),
-            headers: {
-            "Content-Type":"application/json; charset=UTF-8",
-            "x-auth-token":userProvider.user.token
-            },
-            body: jsonEncode({"product_id":product.id})
-          );
+    try {
+      http.Response res =
+          await http.post(Uri.parse("$uri/admin/delete-product"),
+              headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+                "x-auth-token": userProvider.user.token
+              },
+              body: jsonEncode({"product_id": product.id}));
 
-          httErrorHandle(response: res, context: context, onSuccess: ()
-          {
-           onSuccess();
-           showSnackBar(context, "Product deleted successfully");
+      httErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            onSuccess();
+            showSnackBar(context, "Product deleted successfully");
           });
-        }catch(e)
-        {
-          showSnackBar(context, e.toString());
-        }
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  //fetch all orders
+  Future<List<Order>> getAllOrders(BuildContext context) async {
+    List<Order> orders = [];
+    try {
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      http.Response ordersResult =
+          await http.get(Uri.parse("$uri/admin/get-orders"), headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+        "x-auth-token": userProvider.user.token
+      });
+
+      httErrorHandle(
+          response: ordersResult,
+          context: context,
+          onSuccess: () {
+            for (int i = 0; i < jsonDecode(ordersResult.body).length; i++) {
+              orders.add(
+                  Order.fromJson(jsonEncode(jsonDecode(ordersResult.body)[i])));
+            }
+          });
+    } catch (error) {
+      showSnackBar(context, error.toString());
+    }
+
+    return orders;
+  }
+
+  void updateOrderStatus(
+      {required BuildContext context,
+      required Order order,
+      required int status,
+      required VoidCallback onSuccess}) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    try {
+      http.Response res =
+          await http.post(Uri.parse("$uri/admin/update-order-status"),
+              headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+                "x-auth-token": userProvider.user.token
+              },
+              body: jsonEncode({"id": order.id, "status": status}));
+
+      httErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            onSuccess();
+            showSnackBar(context, "Order Status update successfully");
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:amazon/features/admin/screens/orders_screen.dart';
 import 'package:amazon/features/admin/screens/post_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -11,53 +12,53 @@ class AdminScreen extends StatefulWidget {
 }
 
 class _AdminScreenState extends State<AdminScreen> {
-
   int _page = 0;
   final double _bottomBarWidth = 42.0;
   final double _bottomBarBorderWidth = 5;
   List<Widget> pages = [
     const PostScreen(),
-    const Center(child: Text('Analytic page'),),
-    const Center(child: Text('Orders Page'),),
+    const Center(
+      child: Text('Analytic page'),
+    ),
+    const OrdersScreen(),
   ];
 
-  void changePage(int currentPageIndex)
-  {
-    setState((){
+  void changePage(int currentPageIndex) {
+    setState(() {
       _page = currentPageIndex;
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PreferredSize(
-      preferredSize: const Size.fromHeight(50),
-      child: AppBar(
-        flexibleSpace: Container(
-          decoration:
-              const BoxDecoration(gradient: GlobalVariables.appBarGradient),
-        ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(top: 15),
-              alignment: Alignment.topLeft,
-              child: Image.asset('assets/images/amazon_in.png',
-                  width: 120, height: 45, color: Colors.black),
-            ),
-            Container(
-              padding: const EdgeInsets.only(left: 15, top: 15),
-              alignment: Alignment.topRight,
-              child: const Text("Admin",
-                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
-            ),
-          ],
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(50),
+        child: AppBar(
+          flexibleSpace: Container(
+            decoration:
+                const BoxDecoration(gradient: GlobalVariables.appBarGradient),
+          ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 15),
+                alignment: Alignment.topLeft,
+                child: Image.asset('assets/images/amazon_in.png',
+                    width: 120, height: 45, color: Colors.black),
+              ),
+              Container(
+                padding: const EdgeInsets.only(left: 15, top: 15),
+                alignment: Alignment.topRight,
+                child: const Text("Admin",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black)),
+              ),
+            ],
+          ),
         ),
       ),
-    ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _page,
         selectedItemColor: GlobalVariables.selectedNavBarColor,
@@ -69,54 +70,48 @@ class _AdminScreenState extends State<AdminScreen> {
           //POSTS
           BottomNavigationBarItem(
               icon: Container(
-            width: _bottomBarWidth,
-            decoration: BoxDecoration(
-              border: Border(
-                  top: BorderSide(color: _page == 0
-                      ? GlobalVariables.selectedNavBarColor
-                      : GlobalVariables.backgroundColor,
-                      width: _bottomBarBorderWidth
-                  )
+                width: _bottomBarWidth,
+                decoration: BoxDecoration(
+                  border: Border(
+                      top: BorderSide(
+                          color: _page == 0
+                              ? GlobalVariables.selectedNavBarColor
+                              : GlobalVariables.backgroundColor,
+                          width: _bottomBarBorderWidth)),
+                ),
+                child: const Icon(Icons.home_outlined),
               ),
-            ),
-            child: const Icon(Icons.home_outlined),
-          ),
-              label: ""
-          ),
+              label: ""),
           //ANALYTICS
           BottomNavigationBarItem(
               icon: Container(
-            width: _bottomBarWidth,
-            decoration: BoxDecoration(
-              border: Border(
-                  top: BorderSide(color: _page == 1
-                      ? GlobalVariables.selectedNavBarColor
-                      : GlobalVariables.backgroundColor,
-                      width: _bottomBarBorderWidth
-                  )
+                width: _bottomBarWidth,
+                decoration: BoxDecoration(
+                  border: Border(
+                      top: BorderSide(
+                          color: _page == 1
+                              ? GlobalVariables.selectedNavBarColor
+                              : GlobalVariables.backgroundColor,
+                          width: _bottomBarBorderWidth)),
+                ),
+                child: const Icon(Icons.analytics_outlined),
               ),
-            ),
-            child: const Icon(Icons.analytics_outlined),
-          ),
-              label: ""
-          ),
+              label: ""),
           //ORDERS
           BottomNavigationBarItem(
               icon: Container(
-            width: _bottomBarWidth,
-            decoration: BoxDecoration(
-              border: Border(
-                  top: BorderSide(color: _page == 2
-                      ? GlobalVariables.selectedNavBarColor
-                      : GlobalVariables.backgroundColor,
-                      width: _bottomBarBorderWidth
-                  )
+                width: _bottomBarWidth,
+                decoration: BoxDecoration(
+                  border: Border(
+                      top: BorderSide(
+                          color: _page == 2
+                              ? GlobalVariables.selectedNavBarColor
+                              : GlobalVariables.backgroundColor,
+                          width: _bottomBarBorderWidth)),
+                ),
+                child: const Icon(Icons.all_inbox_outlined),
               ),
-            ),
-            child: const Icon(Icons.all_inbox_outlined),
-          ),
-              label: ""
-          )
+              label: "")
         ],
       ),
       body: pages[_page],
