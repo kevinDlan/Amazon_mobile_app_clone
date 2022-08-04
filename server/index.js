@@ -1,6 +1,6 @@
 //Create API Endpoint
 const express  = require('express');
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 //import other route from file
 const authRouter = require('./router/auth');
 const adminRouter = require('./router/admin');
@@ -23,7 +23,7 @@ app.get('/api/gretting', (req,res)=>{
 app.get('/api/test', (req, res)=>{
    res.json({message : 'Welcome to sandbox'})
 })
-app.listen(PORT,'192.168.1.115',()=>
+app.listen(PORT,'0.0.0.0',()=>
 { 
    console.log(`Connected successfully to port : ${PORT}`);
 })
