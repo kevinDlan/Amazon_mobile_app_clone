@@ -61,12 +61,13 @@ adminRouter.get("/api/admin/get-orders", admin, async (req, res) => {
 adminRouter.post("/api/admin/update-order-status", admin, async (req, res) => {
   try {
     const { id, status } = req.body;
-    let order = Order.findById(id);
+    let order = await Order.findById(id);
 
     order.status = status;
-    await order.save();
+    order = await order.save();
     res.json(order);
-  } catch (e) {
+  } catch (e) 
+  {
     res.status(500).json({ error: e.message });
   }
 });
