@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants/global_variables.dart';
+import '../../../constants/utils.dart';
 import '../../../providers/user_provider.dart';
 import '../../address/screens/address_screen.dart';
 import '../../search/screen/search_screen.dart';
@@ -23,9 +24,9 @@ class _CartScreenState extends State<CartScreen> {
         arguments: searchQuery);
   }
 
-  void navigateToAddressScreen(int sum)
-  {
-    Navigator.pushNamed(context, AddressScreen.routeName, arguments: sum.toString());
+  void navigateToAddressScreen(int sum) {
+    Navigator.pushNamed(context, AddressScreen.routeName,
+        arguments: sum.toString());
   }
 
   TextEditingController searchTextField = TextEditingController();
@@ -41,7 +42,9 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     final user = context.watch<UserProvider>().user;
     int sum = 0;
-    user.cart.map((p) => sum += p['quantity']*p['product']['price'] as int).toList();
+    user.cart
+        .map((p) => sum += p['quantity'] * p['product']['price'] as int)
+        .toList();
 
     return Scaffold(
       appBar: PreferredSize(
@@ -110,7 +113,9 @@ class _CartScreenState extends State<CartScreen> {
               padding: const EdgeInsets.all(8.0),
               child: CustomButton(
                 value: "Proceed to Buy (${user.cart.length} item(s))",
-                onTap: () => navigateToAddressScreen(sum),
+                onTap: () => user.cart.isEmpty
+                    ? showSnackBar(context, "Your cart is Empty,Please add product!")
+                    : navigateToAddressScreen(sum),
                 color: Colors.yellow[600],
               ),
             ),

@@ -189,7 +189,9 @@ class AdminService {
               Sales("Fashion", data['fashionEarning']),
             ];
           });
-    } catch (e) {
+    } catch (e)
+    {
+      print(e.toString());
       showSnackBar(context, e.toString());
     }
     return {'sales': sales, 'totalEarning': totalEarning};

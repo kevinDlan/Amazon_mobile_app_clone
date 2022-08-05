@@ -37,6 +37,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     // TODO: implement initState
     super.initState();
     double totalRating = 0;
+    print(widget.product.rating![0].rating);
     for(int i = 0; i < widget.product.rating!.length; i++)
       {
         totalRating += widget.product.rating![i].rating;

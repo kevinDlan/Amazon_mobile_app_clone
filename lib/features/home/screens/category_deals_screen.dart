@@ -1,6 +1,7 @@
 import 'package:amazon/common/widgets/loader.dart';
 import 'package:amazon/features/home/services/home_services.dart';
 import 'package:amazon/features/product_details/screens/product_details_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/global_variables.dart';
@@ -19,10 +20,11 @@ class CategoriesDealScreen extends StatefulWidget {
 class _CategoriesDealScreenState extends State<CategoriesDealScreen> {
   HomeServices homeServices = HomeServices();
   List<Product>? products = [];
-  navigateToProductDetailScreen(Product product)
-  {
-    Navigator.pushNamed(context, ProductDetailsScreen.routeName, arguments: product);
+  navigateToProductDetailScreen(Product product) {
+    Navigator.pushNamed(context, ProductDetailsScreen.routeName,
+        arguments: product);
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -77,7 +79,7 @@ class _CategoriesDealScreenState extends State<CategoriesDealScreen> {
                         itemBuilder: (context, index) {
                           final product = products![index];
                           return GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               navigateToProductDetailScreen(product);
                             },
                             child: Column(
@@ -90,7 +92,18 @@ class _CategoriesDealScreenState extends State<CategoriesDealScreen> {
                                             color: Colors.black12, width: 0.5)),
                                     child: Padding(
                                       padding: const EdgeInsets.all(10),
-                                      child: Image.network(product.images[0]),
+                                      child: CachedNetworkImage(
+                                          imageUrl: product.images[0],
+                                          placeholder: (context, link) =>
+                                              const CircularProgressIndicator(
+                                                value: 5.0,
+                                              ),
+                                          errorWidget: (context, url, error) =>
+                                              const Icon(
+                                                Icons.error,
+                                                color: Colors.redAccent,
+                                                size: 10,
+                                              )),
                                     ),
                                   ),
                                 ),
@@ -101,7 +114,12 @@ class _CategoriesDealScreenState extends State<CategoriesDealScreen> {
                                     right: 15,
                                     top: 5,
                                   ),
-                                  child: Text(product.name, maxLines: 1, style: const TextStyle(overflow: TextOverflow.ellipsis),),
+                                  child: Text(
+                                    product.name,
+                                    maxLines: 1,
+                                    style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis),
+                                  ),
                                 )
                               ],
                             ),

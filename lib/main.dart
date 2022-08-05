@@ -23,11 +23,11 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
-
   AuthService authService = AuthService();
 
   @override
-  void initState() {
+  void initState()
+  {
     // TODO: implement initState
     super.initState();
     authService.getUserData(context);
